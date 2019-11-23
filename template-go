@@ -1,0 +1,17 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+func main() {
+	file, _ := os.Open("input")
+	// file := os.Stdin
+	reader := bufio.NewReader(file)
+	var n, m int
+	fmt.Fscanf(reader, "%d %d\n", &n, &m)
+
+	return
+}

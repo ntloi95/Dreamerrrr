@@ -14,45 +14,57 @@ func main() {
 	fmt.Fscanf(reader, "%d %d\n", &n, &m)
 	a := make([][]int, n)
 	b := make([][]int, n)
+	c := make([][]int, n)
 	for i := 0; i < n; i++ {
 		a[i] = make([]int, m)
 		b[i] = make([]int, m)
+		c[i] = make([]int, m)
 	}
 
 	for i := 0; i < n; i++ {
 		for j := 0; j < m; j++ {
 			fmt.Fscanf(reader, "%d", &b[i][j])
+			a[i][j] = 1
+			c[i][j] = 0
 		}
 		fmt.Fscanf(reader, "\n")
 	}
 
-	hasOneA := false
-	hasOneB := false
 	for i := 0; i < n; i++ {
 		for j := 0; j < m; j++ {
-			if b[i][j] == 1 {
-				hasOneB = true
-				fRow := checkRow(b, i, m)
-				fCol := checkCol(b, j, n)
-
-				if !fRow && !fCol {
-					fmt.Println("NO")
-					return
+			if b[i][j] == 0 {
+				for ii := 0; ii < n; ii++ {
+					a[ii][j] = 0
 				}
 
-				if fRow && fCol {
-					a[i][j] = 1
-					hasOneA = true
-				} else {
-					a[i][j] = 0
+				for jj := 0; jj < m; jj++ {
+					a[i][jj] = 0
 				}
 			}
 		}
 	}
 
-	if hasOneA != hasOneB {
-		fmt.Println("NO")
-		return
+	for i := 0; i < n; i++ {
+		for j := 0; j < m; j++ {
+			if a[i][j] == 1 {
+				for ii := 0; ii < n; ii++ {
+					c[ii][j] = 1
+				}
+
+				for jj := 0; jj < m; jj++ {
+					c[i][jj] = 1
+				}
+			}
+		}
+	}
+
+	for i := 0; i < n; i++ {
+		for j := 0; j < m; j++ {
+			if b[i][j] != c[i][j] {
+				fmt.Print("NO")
+				return
+			}
+		}
 	}
 
 	fmt.Println("YES")
